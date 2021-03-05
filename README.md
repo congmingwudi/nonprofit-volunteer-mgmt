@@ -1,7 +1,9 @@
 # nonprofit-volunteer-mgmt
 
-Add a brief description of this project here, in Markdown format.
-It will be shown on the main page of the project's GitHub repository.
+This is a Salesforce DX project that provides lightning components for volunteer shift signup that can be placed on an unauthenticated site. 
+
+The code in here extends the Volunteers for Salesforce package: https://github.com/SalesforceFoundation/Volunteers-for-Salesforce
+
 
 ## Development
 
