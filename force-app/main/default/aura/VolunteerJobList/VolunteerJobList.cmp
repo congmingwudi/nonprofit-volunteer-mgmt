@@ -1,0 +1,35 @@
+<aura:component>
+
+    <!-- input attributes -->
+    <aura:attribute name="jobList" type="List" default="[]" />
+
+    <!-- output attributes -->
+    <aura:attribute name="selectedShiftID" type="String" />
+
+    <!-- no volunteer jobs available -->
+    <aura:if isTrue="{!(v.jobList == null) || (v.jobList.length == 0)}">
+
+        <!-- box container -->
+        <div class="slds-p-horizontal_large slds-p-vertical_x-small">
+        <div class="slds-box slds-p-around_small">
+            <div class="slds-text-heading_small slds-p-horizontal_small">No volunteer positions available</div>
+        </div>
+        </div>
+        <!-- end box container -->
+
+    </aura:if>
+
+    <!-- volunteer jobs available -->
+    <aura:if isTrue="{!v.jobList.length > 0}">
+
+        <!-- job list -->
+        <aura:iteration items="{!v.jobList}" var="job">
+
+            <!-- job shifts -->
+            <c:VolunteerJobShiftList job="{!job}" selectedShiftID="{!v.selectedShiftID}"/>
+
+        </aura:iteration>
+
+    </aura:if>
+
+</aura:component>

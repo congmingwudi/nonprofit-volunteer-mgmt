@@ -1,0 +1,80 @@
+<aura:component controller="VolunteerEventController">
+
+    <!-- input attributes -->
+    <aura:attribute name="job" type="GW_Volunteers__Volunteer_Job__c" />
+
+    <!-- output attributes -->
+    <aura:attribute name="selectedShiftID" type="String" />
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- table attributes -->
+    <aura:attribute name="shiftsLoaded" type="Boolean" default="false"/>
+    <aura:attribute name="tableHeight" type="String" default="300px"/>
+    <aura:attribute name="tableData" type="Object"/>
+    <aura:attribute name="tableColumns" type="List"/>
+    <aura:attribute name="jobLocation" type="String"/>
+
+    <aura:if isTrue="{!v.shiftsLoaded}">
+
+        <!-- box container -->
+        <div class="slds-p-horizontal_x-small slds-p-vertical_x-small">
+        <div class="slds-box slds-p-around_x-small">
+
+            <!-- no job shifts available -->
+            <aura:if isTrue="{!v.tableData == null}">
+                <div class="slds-text-heading_small slds-p-horizontal_small">{!'No shifts available for: ' + v.job.Name}</div>
+            </aura:if>
+
+            <!-- job shifts available -->
+            <aura:if isTrue="{!v.tableData != null}">
+                <lightning:layout horizontalAlign="spread">
+                    <lightning:layoutItem>
+                        <div class="page-section page-header slds-text-align_center">
+                            <div class="slds-text-heading--label">Volunteer Job</div>
+                            <div class="slds-text-heading_small">{!v.job.Name}</div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                        <div class="page-section page-header slds-text-align_center">
+                            <div class="slds-text-heading--label">Shifts Available</div>
+                            <div class="slds-text-body--small">{!v.tableData.length}</div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                        <div class="page-section page-header slds-text-align_center">
+                            <div class="slds-text-heading--label">Location</div>
+                            <aura:if isTrue="{!v.jobLocation}">
+                                <div class="slds-text-body--small"><a href="{!v.job.Map_URL__c}" target="_new">{!v.jobLocation}</a></div>
+                            </aura:if>
+                            <aura:if isTrue="{!!v.jobLocation}">
+                                <div class="slds-text-body--small">Not Specified</div>
+                            </aura:if>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+                <!-- SHIFT TABLE -->
+                <!-- the container element determines the height of the datatable -->
+                <div style="{!'height:' + v.tableHeight}" class="slds-scrollable">
+                    <lightning:datatable data="{! v.tableData }"
+                                         columns="{! v.tableColumns }"
+                                         keyField="Name"
+                                         onrowselection="{! c.getSelectedName }"
+                                         hideCheckboxColumn="true"
+                                         showRowNumberColumn="false"
+                                         onrowaction="{! c.handleRowAction }"
+                                         class="slds-p-around_medium" />
+                </div>
+                <!-- / SHIFT TABLE -->
+            </aura:if>
+
+        </div>
+        </div>
+        <!-- end box container -->
+
+    </aura:if> <!-- end shifts loaded -->
+
+
+</aura:component>

@@ -1,0 +1,9 @@
+<design:component>
+
+    <!-- input -->
+    <design:attribute name="shiftID" label="Shift ID" />
+    <design:attribute name="contact" label="Volunteer Contact" />
+    <design:attribute name="signup" label="Shift Signup" />
+    <design:attribute name="signupChannel" label="Signup Channel" />
+
+</design:component>

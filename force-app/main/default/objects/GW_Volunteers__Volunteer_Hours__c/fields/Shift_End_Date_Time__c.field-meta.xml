@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Shift_End_Date_Time__c</fullName>
+    <externalId>false</externalId>
+    <formula>GW_Volunteers__Volunteer_Shift__r.End_Date_Time__c</formula>
+    <label>Shift End Date &amp; Time</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Display_on_Website__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>If this Volunteer Hours shift should be included in the web site event signup page.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If this Volunteer Hours shift should be included in the web site event signup page.</inlineHelpText>
+    <label>Display on Website</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

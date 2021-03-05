@@ -1,0 +1,28 @@
+minimum_cumulusci_version: '3.29.0'
+project:
+    name: nonprofit-volunteer-mgmt
+    package:
+        name: nonprofit-volunteer-mgmt
+        api_version: '50.0'
+    dependencies:
+        - github: 'https://github.com/SalesforceFoundation/NPSP'
+        - github: 'https://github.com/SalesforceFoundation/Volunteers-for-Salesforce'
+    git:
+        default_branch: 'main'
+    source_format: sfdx
+
+tasks:
+    robot:
+        options:
+            suites: robot/nonprofit-volunteer-mgmt/tests
+            options:
+                outputdir: robot/nonprofit-volunteer-mgmt/results
+
+    robot_testdoc:
+        options:
+            path: robot/nonprofit-volunteer-mgmt/tests
+            output: robot/nonprofit-volunteer-mgmt/doc/nonprofit-volunteer-mgmt_tests.html
+
+    run_tests:
+        options:
+            required_org_code_coverage_percent: 75

@@ -1,0 +1,18 @@
+<!--
+ - Created by ryan.cox on 2019-01-16.
+ -->
+
+<design:component>
+
+    <!-- input -->
+    <design:attribute name="eventID" label="Volunteer Event ID" />
+    <design:attribute name="eventName" label="Volunteer Event Name" />
+    <design:attribute name="signupChannel" label="Signup Channel" />
+    
+    <!-- output -->
+    <design:attribute name="navigation" label="Navigation" />
+    <design:attribute name="deviceType" label="Device Type" />
+    <design:attribute name="campaign" label="Campaign" />
+    <design:attribute name="selectedShiftID" label="Selected Shift ID" />
+
+</design:component>

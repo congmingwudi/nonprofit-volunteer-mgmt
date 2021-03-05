@@ -1,0 +1,140 @@
+<aura:component description="VolunteerEvent_Family">
+
+    <!-- input/output attributes -->
+    <aura:attribute name="family" type="List" default="[]"/> <!-- list of Contact -->
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- FAMILY TABLE attributes -->
+    <aura:attribute name="tableTitle" type="String" default="{!'FAMILY MEMBERS (' + v.family.length + ')'}"/>
+    <aura:attribute name="tableData" type="Object"/>
+    <aura:attribute name="tableColumns" type="List"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="sortedBy" type="String"/>
+    <aura:attribute name="sortedDirection" type="String"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+
+    <!-- FAMILY TABLE -->
+    <lightning:card title="{!v.tableTitle}" >
+        <aura:set attribute="actions">
+            <lightning:button class="slds-button slds-button--brand"
+                              onclick="{!c.openModal_addFamilyMember}">Add Family Member</lightning:button>
+        </aura:set>
+
+        <!-- the container element determine the height of the datatable -->
+        <div style="height: 150px" class="slds-scrollable">
+            <lightning:datatable aura:id="familyTable"
+                                 data="{! v.tableData }"
+                                 columns="{! v.tableColumns }"
+                                 keyField="Name"
+                                 hideCheckboxColumn="true"
+                                 showRowNumberColumn="true"
+                                 sortedBy="{! v.sortedBy }"
+                                 sortedDirection="{! v.sortedDirection }"
+                                 defaultSortDirection="{! v.defaultSortDirection }"
+                                 onsort="{! c.updateColumnSorting }"
+                                 onrowaction="{! c.handleRowAction }"
+                                 class="slds-p-around_medium" />
+        </div>
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner alternativeText="Loading"/>
+        </aura:if>
+    </lightning:card>
+    <!-- / FAMILY TABLE -->
+
+
+    <!-- FAMILY MEMBER DETAIL MODAL DIALOG attributes -->
+    <aura:attribute name="modalIsOpen" type="boolean" default="false"/>
+    <aura:attribute name="modalAction" type="String"/>
+    <aura:attribute name="modalTitle" type="String"/>
+    <aura:attribute name="familyMember" type="Contact" default="{}"/>
+    <aura:attribute name="familyMemberIndex" type="Integer"/>
+    <aura:attribute name="relationshipOptionList" type="List" default="['Son','Daughter','Husband','Wife']"/>
+
+    <!-- FAMILY MEMBER DETAIL MODAL DIALOG -->
+    <aura:if isTrue="{!v.modalIsOpen}">
+
+        <div class="slds-m-around--xx-large">
+            <div role="dialog" tabindex="-1" aria-labelledby="modalHeader" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- MODAL HEADER -->
+                    <div class="slds-modal__header slds-theme_shade">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+                            X <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <lightning:layout >
+                            <lightning:layoutItem padding="around-small">
+                                <lightning:icon iconName="standard:lead" alternativeText="" size="small"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small">
+                                <h2 id="modalHeader" class="slds-text-heading--medium">{!v.modalTitle}</h2>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+
+                    <!--MODAL BODY -->
+                    <div class="slds-modal__content">
+
+                        <lightning:layout multipleRows="true">
+
+                            <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                                <lightning:input aura:id="field" label="First Name" required="true"
+                                                 messageWhenValueMissing="First Name is required." value="{!v.familyMember.FirstName}" />
+                            </lightning:layoutItem>
+
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <lightning:input aura:id="field" label="Last Name" required="true"
+                                                 messageWhenValueMissing="Last Name is required." value="{!v.familyMember.LastName}" />
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+
+                        <lightning:layout multipleRows="true">
+
+                            <lightning:layoutItem flexibility="auto" padding="around-small" size="6">
+                                <lightning:input aura:id="field" type="date" label="Birthdate (e.g. Jan 1, 1990)" required="true"
+                                                 messageWhenValueMissing="Birthdate is required." value="{!v.familyMember.Birthdate}" />
+                            </lightning:layoutItem>
+
+                            <!-- relationship - using Contact.Description field to pass to the apex controller -->
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <lightning:select aura:id="relationship" label="Relationship"
+                                                  required="true" messageWhenValueMissing="Relationship is required."
+                                                  value="{!v.familyMember.Description}">
+                                    <aura:iteration items="{!v.relationshipOptionList}" var="relationship">
+                                        <option text="{!relationship}" value="{!relationship}"></option>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+
+                    </div>
+                    <!-- / MODAL BODY -->
+
+                    <!-- MODAL FOOTER -->
+                    <div class="slds-modal__footer">
+                        <lightning:button variant="neutral" onclick="{!c.closeModal}">Close</lightning:button>
+                        <aura:if isTrue="{!v.modalAction == 'create'}">
+                            <lightning:button aura:id="button_saveFamilyMember" variant="brand" onclick="{!c.saveFamilyMember}">Save</lightning:button>
+                            <lightning:button aura:id="button_saveAddAnotherFamilyMember" variant="brand" onclick="{!c.saveFamilyMember}">Save &amp; Add Another</lightning:button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.modalAction == 'update'}">
+                            <lightning:button variant="brand" onclick="{!c.saveFamilyMember}">Update</lightning:button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.modalAction == 'delete'}">
+                            <lightning:button variant="brand" onclick="{!c.deleteFamilyMember}">Delete</lightning:button>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+
+        </div>
+    </aura:if>
+    <!-- END FAMILY MEMBER DETAIL MODAL DIALOG -->
+
+
+</aura:component>

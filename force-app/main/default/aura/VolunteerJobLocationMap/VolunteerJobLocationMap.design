@@ -1,0 +1,10 @@
+<!--
+ - Created by ryan.cox on 2019-02-03.
+ -->
+
+<design:component>
+
+    <!-- input -->
+    <design:attribute name="zoomLevel" label="Zoom Level" description="number for Google API zoom level" />
+
+</design:component>

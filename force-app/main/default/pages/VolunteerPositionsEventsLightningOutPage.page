@@ -1,0 +1,23 @@
+<!--
+ - Created by ryan.cox on 2019-01-21.
+ -->
+
+<apex:page id="VolunteerPositionsEventsLightningOutPage" showHeader="false" standardStylesheets="false">
+
+    <apex:includeLightning />
+
+    <div style="width:100%;height:100px;" id="lexContainer">
+        <div id="VolunteerPositionsAndEvents"></div>
+    </div>
+
+    <script>
+    $Lightning.use("c:VolunteerPositionsEventsLightningOutApp", function() {
+        $Lightning.createComponent("c:VolunteerPositionsAndEvents", {},"lexContainer",
+        	function(cmp) {
+ 				document.getElementById("VolunteerPositionsAndEvents").style.display = 'none';
+        	});
+    });
+	</script>
+
+
+</apex:page>

@@ -1,0 +1,22 @@
+<!--
+ - Created by ryan.cox on 2019-01-20.
+ -->
+
+<apex:page id="VolunteerEventList_LightningOutAppPage" showHeader="false" standardStylesheets="false">
+
+    <apex:includeLightning />
+
+    <div style="width:100%;height:100px;" id="lexContainer">
+        <div id="VolunteerEventList"></div>
+    </div>
+
+    <script>
+    $Lightning.use("c:VolunteerEventListLightningOutApp", function() {
+        $Lightning.createComponent("c:VolunteerEventList", {},"lexContainer",
+        	function(cmp) {
+ 				document.getElementById("VolunteerEventList").style.display = 'none';
+        	});
+    });
+	</script>
+
+</apex:page>

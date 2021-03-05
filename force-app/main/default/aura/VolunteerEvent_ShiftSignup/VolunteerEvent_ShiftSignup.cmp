@@ -1,0 +1,235 @@
+<!--
+ - Created by ryan.cox on 2019-01-16.
+ -->
+
+<aura:component description="VolunteerEvent_ShiftSignup" implements="lightning:availableForFlowScreens"
+                access="global" controller="VolunteerEventController">
+
+    <!-- input attributes -->
+    <aura:attribute name="shiftID" type="String" access="global" default=""/>
+    <aura:attribute name="signupChannel" type="String" access="global" default=""/>
+
+    <!-- output attributes -->
+    <aura:attribute name="navigation" type="String" access="global"/>
+    <aura:attribute name="contact" type="Contact" access="global" default="{}"/>
+    <aura:attribute name="signup" type="GW_Volunteers__Volunteer_Hours__c" access="global"/>
+
+    <!-- private attributes -->
+    <aura:attribute name="campaign" type="Campaign"/>
+    <aura:attribute name="job" type="GW_Volunteers__Volunteer_Job__c"/>
+    <aura:attribute name="shift" type="GW_Volunteers__Volunteer_Shift__c"/>
+    <aura:attribute name="shiftStartTime" type="String"/>
+    <aura:attribute name="shiftEndTime" type="String"/>
+    <aura:attribute name="shiftDuration" type="Decimal"/>
+    <aura:attribute name="signupFamily" type="Boolean" default="false"/>
+    <aura:attribute name="family" type="List" default="[]"/> <!-- list of Contact -->
+    <aura:attribute name="photoPermissionLabel" type="String"/>
+    <aura:attribute name="photoPermissionOptions" type="List"/>
+    <aura:attribute name="photoPermission" type="String"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="signupCreated" type="Boolean" default="false"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+    <aura:handler name="change" value="{!v.signupCreated}" action="{!c.signUpCreated}"/>
+
+    <!-- signup card title -->
+    <aura:attribute name="title" type="Aura.Component[]">
+
+        <!-- VOLUNTEER JOB SHIFT -->
+        <lightning:layout multipleRows="true" horizontalAlign="space" verticalAlign="start" class="slds-page-header">
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">Volunteer Job</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.job.Name}</div>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">START TIME</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.shiftStartTime}</div>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">END TIME</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.shiftEndTime}</div>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">HOURS</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.shiftDuration}</div>
+                </div>
+            </lightning:layoutItem>
+
+        </lightning:layout>
+    </aura:attribute>
+
+    <!-- container -->
+    <div style="font-size: 1.1em">
+
+        <aura:if isTrue="{!v.isLoading }">
+            <lightning:spinner alternativeText="Loading"/>
+        </aura:if>
+
+        <lightning:layout verticalAlign="start" class="slds-page-header">
+
+            <lightning:layoutItem>
+                <lightning:icon iconName="custom:custom103" alternativeText="Volunteer Event"/>
+            </lightning:layoutItem>
+
+            <!-- campaign name -->
+            <lightning:layoutItem flexibility="auto" alignmentBump="right">
+                <div class="slds-text-heading_small slds-p-horizontal_small">{!v.campaign.Name}</div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem>
+                <div class="slds-text-heading--medium">SHIFT SIGN UP</div>
+            </lightning:layoutItem>
+
+        </lightning:layout>
+
+        <!-- card -->
+        <lightning:card title="{!v.title}">
+
+            <!-- VOLUNTEER CONTACT -->
+
+            <lightning:layout>
+
+                <!-- email -->
+                <lightning:layoutItem flexibility="auto" padding="around-small" size="12">
+                    <lightning:input aura:id="field" type="email" class="slds-text-title_bold"
+                                     label="Email - make sure it's correct!" required="true"
+                                     messageWhenValueMissing="Email is required." value="{!v.contact.Email}" />
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+            <lightning:layout multipleRows="true">
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="6">
+                    <lightning:input aura:id="field" label="First Name" required="true"
+                                     messageWhenValueMissing="First Name is required." value="{!v.contact.FirstName}" />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                    <lightning:input aura:id="field" label="Last Name" required="true"
+                                     messageWhenValueMissing="Last Name is required." value="{!v.contact.LastName}" />
+                </lightning:layoutItem>
+
+
+            </lightning:layout>
+
+            <lightning:layout>
+
+                <!-- mobile phone -->
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="6">
+                    <lightning:input aura:id="field" type="tel" label="Mobile Phone (e.g. 999-999-9999)" required="true"
+                                     messageWhenValueMissing="Mobile Phone is required."
+                                     pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{4}" messageWhenPatternMismatch="Please enter phone number like this: 999-999-9999"
+                                     value="{!v.contact.MobilePhone}" />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                    <lightning:input aura:id="field" type="date" label="Birthdate - select date in calendar (e.g. Jan 1, 1990)" required="true"
+                                     messageWhenValueMissing="Birthdate is required."
+                                     value="{!v.contact.Birthdate}" />
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+            <!-- MAILING ADDRESS -->
+
+            <lightning:layout>
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="12">
+                    <lightning:input aura:id="field" label="Mailing Address" required="true"
+                                     messageWhenValueMissing="Mailing Street is required." value="{!v.contact.MailingStreet}" />
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+            <lightning:layout multipleRows="true">
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                    <lightning:input aura:id="field" label="City" required="true"
+                                     messageWhenValueMissing="Mailing City is required." value="{!v.contact.MailingCity}" />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                    <lightning:input aura:id="field" label="State" required="true"
+                                     messageWhenValueMissing="Mailing State is required." value="{!v.contact.MailingState}" />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                    <lightning:input aura:id="field" label="Zip Code" required="true"
+                                     messageWhenValueMissing="Mailing Zip Code is required." value="{!v.contact.MailingPostalCode}" />
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+            <lightning:layout>
+
+                <lightning:layoutItem padding="around-large" >
+
+                    <div class="slds-text-title_bold">
+                        <lightning:input type="checkbox" label="Sign up family members to volunteer with me"
+                                     value="{!v.signupFamily}" onchange="{!c.signupFamilyChanged}"/>
+                    </div>
+
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+            <aura:if isTrue="{!v.signupFamily}">
+
+                <lightning:layout>
+                    <lightning:layoutItem padding="horizontal-large">
+                        <div class="slds-box">
+                            <c:VolunteerEvent_Family family="{!v.family}" />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+            </aura:if>
+
+            <!-- PERMISSION TO USE PHOTOS -->
+            <lightning:layout horizontalAlign="end" multipleRows="true" >
+
+                <lightning:layoutItem alignmentBump="right" padding="around-large">
+
+                    <lightning:radioGroup aura:id="field"
+                                          label="{!v.photoPermissionLabel}"
+                                          options="{!v.photoPermissionOptions}"
+                                          value="{!v.photoPermission }"
+                                          type="radio"
+                                          required="true"/>
+
+                </lightning:layoutItem>
+
+
+                <!-- NAVIGATION BUTTONS -->
+                <lightning:layoutItem  flexibility="auto" padding="around-large" >
+
+                    <lightning:button label="Cancel" aura:id="nav_cancel"
+                                      variant="neutral" onclick="{!c.handleNavigation}"/>
+
+                    <lightning:button label="Sign me up!" aura:id="nav_submit"
+                                      variant="brand" onclick="{!c.handleNavigation}"/>
+
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+        </lightning:card>
+        <!-- end card -->
+
+    </div>
+    <!-- end container -->
+
+</aura:component>

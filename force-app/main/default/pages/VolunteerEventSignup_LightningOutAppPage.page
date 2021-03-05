@@ -1,0 +1,29 @@
+<!--
+ - Created by ryan.cox on 2019-01-17.
+ -->
+
+<apex:page id="VolunteerEventSignup_LightningOutAppPage" showHeader="false" standardStylesheets="false" controller="VolunteerEventController">
+    <apex:includeLightning />
+
+    <div style="width:100%;height:100px;" id="lexContainer">
+
+        <!-- logo -->
+        <div style="text-align:center"><apex:image url="{!$Resource.weecyclelogo1}"/></div>
+
+        <!-- signup flow --> 
+        <div id="VolunteerEventSignup"></div>
+
+    </div>
+
+    <script>
+    $Lightning.use("c:VolunteerEventSignupFlowLightningOutApp", function() {
+        $Lightning.createComponent("c:VolunteerEventSignupFlow",
+            {"eventID": "{!pageEventID}", "eventName": "{!pageEventName}", "signupChannel": "Event Link"},
+            "lexContainer",
+        	function(cmp) {
+ 				document.getElementById("VolunteerEventSignup").style.display = 'none';
+        	});
+    });
+	</script>
+
+</apex:page>

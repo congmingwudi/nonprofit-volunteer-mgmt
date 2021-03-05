@@ -1,0 +1,16 @@
+<!--
+ - Created by ryan.cox on 2019-01-16.
+ -->
+
+<design:component>
+
+    <!-- input -->
+    <design:attribute name="shiftID" label="Shift ID" />
+    <design:attribute name="signupChannel" label="Signup Channel" />
+
+    <!-- output -->
+    <design:attribute name="navigation" label="Navigation" />
+    <design:attribute name="contact" label="Volunteer Contact" />
+    <design:attribute name="signup" label="Shift Signup" />
+
+</design:component>

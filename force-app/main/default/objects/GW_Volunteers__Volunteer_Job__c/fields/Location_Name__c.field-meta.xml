@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Location_Name__c</fullName>
+    <description>Volunteer Job location name - e.g. &quot;WeeCycle Warehouse&quot;</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Volunteer Job location name - e.g. &quot;WeeCycle Warehouse&quot;</inlineHelpText>
+    <label>Location Name</label>
+    <length>50</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

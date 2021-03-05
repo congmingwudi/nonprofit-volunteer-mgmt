@@ -1,0 +1,65 @@
+<!--
+ - Created by ryan.cox on 2019-01-16.
+ -->
+
+<aura:component description="VolunteerEvent_View" implements="lightning:availableForFlowScreens" access="global" controller="VolunteerEventController">
+
+    <!-- input attributes -->
+    <aura:attribute name="eventID" type="String" access="global" default=""/>
+    <aura:attribute name="eventName" type="String" access="global" default=""/>
+    <aura:attribute name="signupChannel" type="String" access="global"/>
+
+    <!-- output attributes -->
+    <aura:attribute name="navigation" type="String" access="global"/>
+    <aura:attribute name="deviceType" type="String" access="global" default=""/>
+    <aura:attribute name="campaign" type="Campaign"/>
+    <aura:attribute name="selectedShiftID" type="String"/>
+
+    <!-- private attributes -->
+    <aura:attribute name="jobList" type="List"/>
+    <aura:attribute name="eventIsActive" type="Boolean"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+    <aura:handler name="change" value="{!v.selectedShiftID}" action="{!c.shiftSelected}"/>
+
+    <!-- container -->
+    <div style="font-size: 1.1em">
+
+        <aura:if isTrue="{!and(v.campaign != null,!v.eventIsActive)}">
+            <div class="notActiveMessage slds-text-heading_small">THIS EVENT IS NOT ACTIVE</div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.campaign != null}">
+
+            <aura:if isTrue="{!v.signupChannel != 'Internal'}">
+                <lightning:layout verticalAlign="start" class="slds-page-header">
+
+                    <lightning:layoutItem>
+                        <lightning:icon iconName="custom:custom103" alternativeText="Volunteer Event" size="small"/>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem flexibility="auto" class="itemTitle slds-text-heading_medium slds-p-horizontal_small">
+                        {!v.campaign.Name}
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+                
+                <lightning:layout>
+                    <lightning:layoutItem flexibility="auto" class="slds-p-horizontal_small">
+                        {!v.campaign.Description}
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+            </aura:if>
+
+            <aura:if isTrue="{!v.eventIsActive}">
+                <!-- volunteer jobs - navigation to next flow screen is handled in this component by selecting to sign up for a job shift -->
+                <c:VolunteerJobList jobList="{!v.jobList}" selectedShiftID="{!v.selectedShiftID}"/>
+            </aura:if>
+
+        </aura:if>
+
+    </div>
+
+</aura:component>

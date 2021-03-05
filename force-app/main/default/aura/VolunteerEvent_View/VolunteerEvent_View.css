@@ -1,0 +1,10 @@
+.THIS .notActiveMessage {
+  font-weight: bold;
+  text-align: center;
+  color: #ff0000;
+}
+
+.THIS .itemTitle {
+  font-weight: solid;
+  color: black;
+}

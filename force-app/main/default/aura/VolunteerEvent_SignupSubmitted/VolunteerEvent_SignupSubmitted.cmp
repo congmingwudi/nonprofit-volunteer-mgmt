@@ -1,0 +1,144 @@
+<!--
+ - Created by ryan.cox on 2019-01-16.
+ -->
+
+<aura:component description="VolunteerEvent_SignupSubmitted" implements="lightning:availableForFlowScreens" access="global" controller="VolunteerEventController">
+
+    <!-- input attributes -->
+    <aura:attribute name="shiftID" type="String" access="global"/>
+    <aura:attribute name="contact" type="Contact" access="global"/>
+    <aura:attribute name="signup" type="GW_Volunteers__Volunteer_Hours__c" access="global"/>
+    <aura:attribute name="signupChannel" type="String" access="global" default=""/>
+
+    <!-- private attributes -->
+    <aura:attribute name="contactID" type="String"/>
+    <aura:attribute name="campaign" type="Campaign"/>
+    <aura:attribute name="job" type="GW_Volunteers__Volunteer_Job__c"/>
+    <aura:attribute name="shift" type="GW_Volunteers__Volunteer_Shift__c"/>
+    <aura:attribute name="shiftStartTime" type="String"/>
+    <aura:attribute name="shiftEndTime" type="String"/>
+    <aura:attribute name="shiftDuration" type="Decimal"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- signup card title -->
+    <aura:attribute name="title" type="Aura.Component[]">
+
+        <!-- VOLUNTEER JOB SHIFT -->
+        <lightning:layout multipleRows="true" horizontalAlign="space" verticalAlign="start" class="slds-page-header">
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">Volunteer Job</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.job.Name}</div>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">START TIME</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.shiftStartTime}</div>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">END TIME</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.shiftEndTime}</div>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="around-small">
+                <div class="page-section page-header">
+                    <div class="slds-text-heading--label">HOURS</div>
+                    <div class="slds-text-body--small slds-text-align_center">{!v.shiftDuration}</div>
+                </div>
+            </lightning:layoutItem>
+
+        </lightning:layout>
+    </aura:attribute>
+
+    <!-- container -->
+    <div style="font-size: 1.1em">
+
+        <lightning:layout verticalAlign="start" class="slds-page-header">
+
+            <lightning:layoutItem>
+                <lightning:icon iconName="custom:custom103" alternativeText="Volunteer Event"/>
+            </lightning:layoutItem>
+
+            <!-- campaign name -->
+            <lightning:layoutItem flexibility="auto" alignmentBump="right">
+                <div class="slds-text-heading_small slds-p-horizontal_small">{!v.campaign.Name}</div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem>
+                <div class="slds-text-heading--medium">SHIFT SIGN UP</div>
+            </lightning:layoutItem>
+
+        </lightning:layout>
+
+        <!-- card -->
+        <lightning:card title="{!v.title}">
+
+            <aura:if isTrue="{!v.signupChannel == 'Internal'}">
+
+                <lightning:layout horizontalAlign="center">
+
+                    <lightning:layoutItem flexibility="auto" padding="around-small">
+
+                        <div class="slds-text-heading_small">
+                            <lightning:button variant="base"
+                                              label="{!v.contact.FirstName + ' ' + v.contact.LastName}"
+                                              onclick="{!c.goToContactRecord}" />
+                            is signed up for this shift.
+                        </div>
+
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+
+            </aura:if>
+
+            <aura:if isTrue="{!v.signupChannel != 'Internal'}">
+
+                <lightning:layout horizontalAlign="center">
+
+                    <lightning:layoutItem flexibility="auto" padding="around-small">
+                        <div class="slds-text-heading_large slds-p-top_large">Thank you for volunteering, {!v.contact.FirstName}!</div><br/>
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+
+                <lightning:layout horizontalAlign="space">
+
+                    <lightning:layoutItem flexibility="auto" padding="around-small">
+                        <div class="slds-text-heading_small">You will receive an email with details of your volunteer shift at {!v.contact.Email}.</div>
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+
+                <lightning:layout horizontalAlign="end" multipleRows="true" >
+
+                    <lightning:layoutItem alignmentBump="right"></lightning:layoutItem>
+
+                    <!-- NAVIGATION BUTTONS -->
+                    <lightning:layoutItem  flexibility="auto" padding="around-large" >
+
+                        <lightning:button label="Back to Volunteer Event" aura:id="nav_finish"
+                                          variant="brand" onclick="{!c.handleNavigation}"/>
+
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+
+            </aura:if>
+
+        </lightning:card>
+        <!-- end card -->
+
+    </div>
+    <!-- end container -->
+
+</aura:component>

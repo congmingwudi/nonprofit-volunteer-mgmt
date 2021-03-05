@@ -1,0 +1,18 @@
+<!--
+ - Created by ryan.cox on 2019-01-17.
+ -->
+
+<aura:component description="VolunteerEventSignupFlow" implements="forceCommunity:availableForAllPageTypes">
+
+    <!-- input attributes -->
+    <aura:attribute name="eventID" type="String" access="global"/>
+    <aura:attribute name="eventName" type="String" access="global"/>
+    <aura:attribute name="signupChannel" type="String" access="global"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- volunteer event signup flow -->
+    <lightning:flow aura:id="Volunteer_Event_Signup"/>
+
+</aura:component>

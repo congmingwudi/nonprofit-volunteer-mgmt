@@ -1,0 +1,28 @@
+<!--
+ - Created by ryan.cox on 2019-01-20.
+ -->
+
+<aura:component description="VolunteerEventList" controller="VolunteerEventController">
+
+    <!-- input attributes -->
+    <aura:attribute name="signupChannel" type="String" default="Website"/>
+
+    <!-- private attributes -->
+    <aura:attribute name="campaignList" type="List"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- container -->
+    <div>
+
+        <div class="title slds-text-heading_large slds-p-horizontal--large">Volunteer Events</div>
+
+        <aura:iteration items="{!v.campaignList}" var="event">
+            <c:VolunteerEventSignupFlow eventID="{!event.Id}" signupChannel="{!v.signupChannel}"/>
+        </aura:iteration>
+
+    </div>
+    <!-- end container -->
+
+</aura:component>

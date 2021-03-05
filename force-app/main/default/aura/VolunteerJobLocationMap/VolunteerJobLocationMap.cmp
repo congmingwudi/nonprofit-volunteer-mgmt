@@ -1,0 +1,32 @@
+<!--
+ - Created by ryan.cox on 2019-02-03.
+ -->
+
+<aura:component description="VolunteerJobLocationMap" implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+                access="global" controller="VolunteerEventController">
+
+    <!-- input attributes -->
+
+    <!-- inherited from force:hasRecordId interface
+    <aura:attribute name="recordId" type="ID" />
+    -->
+    <aura:attribute name="zoomLevel" type="Integer" default="16" access="global"/>
+
+    <!-- private attributes -->
+    <aura:attribute name="job" type="GW_Volunteers__Volunteer_Job__c" />
+    <aura:attribute name="mapMarkers" type="Object"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- container -->
+    <lightning:card title="Job Location" class="slds-text-title_bold">
+
+        <!-- map -->
+        <aura:if isTrue="{!v.mapMarkers}">
+            <lightning:map mapMarkers="{!v.mapMarkers}" zoomLevel="{!v.zoomLevel}" showFooter="true"/>
+        </aura:if>
+
+    </lightning:card>
+
+</aura:component>

@@ -1,0 +1,125 @@
+<aura:component description="VolunteerEvent_Children">
+
+    <!-- input/output attributes -->
+    <aura:attribute name="children" type="List" default="[]"/> <!-- list of Contact -->
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- CHILDREN TABLE attributes -->
+    <aura:attribute name="tableTitle" type="String" default="{!'CHILDREN (' + v.children.length + ')'}"/>
+    <aura:attribute name="tableData" type="Object"/>
+    <aura:attribute name="tableColumns" type="List"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="sortedBy" type="String"/>
+    <aura:attribute name="sortedDirection" type="String"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+
+
+    <!-- CHILDREN TABLE -->
+    <lightning:card title="{!v.tableTitle}" >
+        <aura:set attribute="actions">
+            <lightning:button class="slds-button slds-button--brand"
+                              onclick="{!c.openModal_addChild}">Add Child</lightning:button>
+        </aura:set>
+
+        <!-- the container element determine the height of the datatable -->
+        <div style="height: 150px" class="slds-scrollable">
+            <lightning:datatable aura:id="childrenTable"
+                                 data="{! v.tableData }"
+                                 columns="{! v.tableColumns }"
+                                 keyField="Name"
+                                 hideCheckboxColumn="true"
+                                 showRowNumberColumn="true"
+                                 sortedBy="{! v.sortedBy }"
+                                 sortedDirection="{! v.sortedDirection }"
+                                 defaultSortDirection="{! v.defaultSortDirection }"
+                                 onsort="{! c.updateColumnSorting }"
+                                 onrowaction="{! c.handleRowAction }"
+                                 class="slds-p-around_medium" />
+        </div>
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner alternativeText="Loading"/>
+        </aura:if>
+    </lightning:card>
+    <!-- / CHILDREN TABLE -->
+
+
+    <!-- CHILD DETAIL MODAL DIALOG attributes -->
+    <aura:attribute name="modalIsOpen" type="boolean" default="false"/>
+    <aura:attribute name="modalAction" type="String"/>
+    <aura:attribute name="modalTitle" type="String"/>
+    <aura:attribute name="child" type="Contact"/>
+    <aura:attribute name="childIndex" type="Integer"/>
+
+    <!-- CHILD DETAIL MODAL DIALOG -->
+    <aura:if isTrue="{!v.modalIsOpen}">
+
+        <div class="slds-m-around--xx-large">
+            <div role="dialog" tabindex="-1" aria-labelledby="modalHeader" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- MODAL HEADER -->
+                    <div class="slds-modal__header slds-theme_shade">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+                            X <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <lightning:layout >
+                            <lightning:layoutItem padding="around-small">
+                                <lightning:icon iconName="standard:lead" alternativeText="" size="small"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small">
+                                <h2 id="modalHeader" class="slds-text-heading--medium">{!v.modalTitle}</h2>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+
+                    <!--MODAL BODY -->
+                    <div class="slds-modal__content">
+
+                        <lightning:layout multipleRows="true">
+
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <lightning:input aura:id="field" label="First Name" required="true"
+                                                 messageWhenValueMissing="First Name is required." value="{!v.child.FirstName}" />
+                            </lightning:layoutItem>
+
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <lightning:input aura:id="field" label="Last Name" required="true"
+                                                 messageWhenValueMissing="Last Name is required." value="{!v.child.LastName}" />
+                            </lightning:layoutItem>
+
+                            <lightning:layoutItem flexibility="auto" padding="around-small">
+                                <lightning:input aura:id="field" type="date" label="Birthdate" required="true"
+                                                 messageWhenValueMissing="Birthdate is required." value="{!v.child.Birthdate}" />
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+
+                    </div>
+                    <!-- / MODAL BODY -->
+
+                    <!-- MODAL FOOTER -->
+                    <div class="slds-modal__footer">
+                        <lightning:button variant="neutral" onclick="{!c.closeModal}">Close</lightning:button>
+                        <aura:if isTrue="{!v.modalAction == 'create'}">
+                            <lightning:button aura:id="button_saveChild" variant="brand" onclick="{!c.saveChild}">Save</lightning:button>
+                            <lightning:button aura:id="button_saveAddAnotherChild" variant="brand" onclick="{!c.saveChild}">Save &amp; Add Another</lightning:button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.modalAction == 'update'}">
+                            <lightning:button variant="brand" onclick="{!c.saveChild}">Update</lightning:button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.modalAction == 'delete'}">
+                            <lightning:button variant="brand" onclick="{!c.deleteChild}">Delete</lightning:button>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+
+        </div>
+    </aura:if>
+    <!-- END CHILD DETAIL MODAL DIALOG -->
+
+
+</aura:component>

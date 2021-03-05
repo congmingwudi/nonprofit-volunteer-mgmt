@@ -1,0 +1,27 @@
+<!--
+ - Created by ryan.cox on 2019-01-21.
+ -->
+
+<aura:component description="VolunteerPositionsAndEvents" implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes">
+
+    <!-- container -->
+    <div>
+
+        <lightning:layout horizontalAlign="spread">
+
+            <!-- volunteer positions -->
+            <lightning:layoutItem flexibility="auto" size="4">
+                <c:VolunteerPositions />
+            </lightning:layoutItem>
+
+            <!-- volunteer events -->
+            <lightning:layoutItem flexibility="auto">
+                <c:VolunteerEventList signupChannel="Website"/>
+            </lightning:layoutItem>
+
+        </lightning:layout>
+
+    </div>
+    <!-- end container -->
+
+</aura:component>

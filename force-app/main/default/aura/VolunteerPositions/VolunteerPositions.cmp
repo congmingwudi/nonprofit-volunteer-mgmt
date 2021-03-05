@@ -1,0 +1,42 @@
+<aura:component description="VolunteerPositions" controller="VolunteerEventController">
+
+    <!-- private attributes -->
+    <aura:attribute name="jobList" type="List"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- container -->
+    <div style="font-size: 1.1em">
+
+        <div class="title slds-text-heading_large slds-p-horizontal--large slds-p-bottom--small">Volunteer Positions</div>
+
+        <aura:iteration items="{!v.jobList}" var="job">
+
+            <div class="slds-p-bottom--small">
+                <lightning:layout verticalAlign="start" class="slds-page-header" >
+
+                    <lightning:layoutItem>
+                        <lightning:icon iconName="standard:lead" alternativeText="Volunteer Position" size="x-small"/>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem flexibility="auto" class="itemTitle slds-text-heading_small slds-p-horizontal_small">
+                        {!job.Name}
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+
+                <lightning:layout>
+                    <lightning:layoutItem flexibility="auto" class="slds-p-horizontal_small">
+                        <lightning:formattedRichText value="{!job.GW_Volunteers__Description__c}"></lightning:formattedRichText>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+            </div>
+
+        </aura:iteration>
+
+    </div>
+    <!-- end container -->
+
+</aura:component>
