@@ -3,7 +3,7 @@
     <fullName>Map_Link__c</fullName>
     <description>Link to address on Google Maps</description>
     <externalId>false</externalId>
-    <formula>HYPERLINK(&quot;https://maps.google.com/maps?q=&quot; &amp;  GW_Volunteers__Location_Street__c  &amp; &#39;,+&#39; &amp;  GW_Volunteers__Location_City__c  &amp; &#39;,+&#39; &amp;  GW_Volunteers__Location__c  &amp; &#39;,+&#39; &amp;  GW_Volunteers__Location_Zip_Postal_Code__c  ,&quot;View Map&quot;)</formula>
+    <formula>HYPERLINK(&quot;https://maps.google.com/maps?q=&quot; &amp;  GW_Volunteers__Location_Street__c  &amp; &apos;,+&apos; &amp;  GW_Volunteers__Location_City__c  &amp; &apos;,+&apos; &amp;  GW_Volunteers__Location__c  &amp; &apos;,+&apos; &amp;  GW_Volunteers__Location_Zip_Postal_Code__c  ,&quot;View Map&quot;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Link to address on Google Maps</inlineHelpText>
     <label>Map</label>

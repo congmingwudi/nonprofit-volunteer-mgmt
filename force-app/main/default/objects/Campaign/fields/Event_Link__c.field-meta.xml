@@ -3,7 +3,7 @@
     <fullName>Event_Link__c</fullName>
     <description>Public link to this event for volunteers to sign up for job shifts.</description>
     <externalId>false</externalId>
-    <formula>HYPERLINK(Event_URL__c, Event_URL__c, &#39;new&#39;)</formula>
+    <formula>HYPERLINK(Event_URL__c, Event_URL__c, &apos;new&apos;)</formula>
     <inlineHelpText>Public link to this event for volunteers to sign up for job shifts.</inlineHelpText>
     <label>Event Link</label>
     <required>false</required>
