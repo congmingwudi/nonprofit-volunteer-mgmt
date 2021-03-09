@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GW_Volunteers__Volunteers_Campaign</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Volunteer_Event_Compact_Layout</compactLayoutAssignment>
     <description>A campaign specifically used to track Volunteers</description>
     <label>Volunteer Campaign</label>
     <picklistValues>

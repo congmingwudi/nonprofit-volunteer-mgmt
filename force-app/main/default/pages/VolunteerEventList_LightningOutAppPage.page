@@ -13,10 +13,10 @@
     <script>
     $Lightning.use("c:VolunteerEventListLightningOutApp", function() {
         $Lightning.createComponent("c:VolunteerEventList", {},"lexContainer",
-        	function(cmp) {
- 				document.getElementById("VolunteerEventList").style.display = 'none';
-        	});
+            function(cmp) {
+                document.getElementById("VolunteerEventList").style.display = 'none';
+            });
     });
-	</script>
+    </script>
 
 </apex:page>
