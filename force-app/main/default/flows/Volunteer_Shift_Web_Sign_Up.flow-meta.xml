@@ -4,14 +4,14 @@
         <processMetadataValues>
             <name>emailAlertSelection</name>
             <value>
-                <stringValue>WeeCycle_Volunteer_Job_Signup_Thank_You_Email_Alert</stringValue>
+                <stringValue>Nonprofit_Volunteer_Job_Signup_Thank_You_Email_Alert</stringValue>
             </value>
         </processMetadataValues>
         <name>myRule_1_A2</name>
         <label>Signup Thank You Email</label>
         <locationX>100</locationX>
         <locationY>300</locationY>
-        <actionName>GW_Volunteers__Volunteer_Hours__c.WeeCycle_Volunteer_Job_Signup_Thank_You_Email_Alert</actionName>
+        <actionName>GW_Volunteers__Volunteer_Hours__c.Nonprofit_Volunteer_Job_Signup_Thank_You_Email_Alert</actionName>
         <actionType>emailAlert</actionType>
         <connector>
             <targetReference>myRule_1_A3</targetReference>
@@ -27,14 +27,14 @@
         <processMetadataValues>
             <name>emailAlertSelection</name>
             <value>
-                <stringValue>WeeCycle_Volunteer_Job_Signup_Notification_Email_Alert</stringValue>
+                <stringValue>Nonprofit_Volunteer_Job_Signup_Notification_Email_Alert</stringValue>
             </value>
         </processMetadataValues>
         <name>myRule_1_A3</name>
         <label>Signup Notification Email</label>
         <locationX>100</locationX>
         <locationY>400</locationY>
-        <actionName>GW_Volunteers__Volunteer_Hours__c.WeeCycle_Volunteer_Job_Signup_Notification_Email_Alert</actionName>
+        <actionName>GW_Volunteers__Volunteer_Hours__c.Nonprofit_Volunteer_Job_Signup_Notification_Email_Alert</actionName>
         <actionType>emailAlert</actionType>
         <inputParameters>
             <name>SObjectRowId</name>
@@ -43,23 +43,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>49.0</apiVersion>
-    <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
+    <apiVersion>51.0</apiVersion>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -154,6 +138,9 @@
             </value>
         </processMetadataValues>
         <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
             <name>isChildRelationship</name>
             <value>
                 <booleanValue>false</booleanValue>
@@ -164,6 +151,9 @@
             <value>
                 <stringValue>[GW_Volunteers__Volunteer_Hours__c]</stringValue>
             </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
         </processMetadataValues>
         <name>myRule_1_A1</name>
         <label>Set Confirmed</label>
@@ -224,7 +214,7 @@
         </inputAssignments>
         <object>GW_Volunteers__Volunteer_Hours__c</object>
     </recordUpdates>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <startElementReference>myDecision</startElementReference>
     <status>Active</status>
     <variables>
         <name>myVariable_current</name>
@@ -241,16 +231,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>GW_Volunteers__Volunteer_Hours__c</objectType>
-    </variables>
-    <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
     </variables>
     <variables>
         <name>RecursiveCountVariable</name>

@@ -3,62 +3,123 @@
  */
 ({
 
-   getJobShift: function(component, shiftID) {
+	controllerFile: function() {
+        return "VolunteerEvent_ShiftSignupController";
+    },
 
-        console.log('VolunteerEvent_ShiftSignupHelper > getJobShift - shiftID: ' + shiftID);
+    helperFile: function() {
+        return "VolunteerEvent_ShiftSignupHelper";
+    },
+    
+   	getJobShift: function(component, shiftID) {
 
-        // outcome is setting this value into the component attribute 'shift'
-        var shift = null;
-
-        // Create the action
-        var doAction = true;
-        var action = component.get("c.getVolunteerJobShift"); // method on the VolunteerEventController
-        if (shiftID != '') {
-            action.setParams({
-                "shiftID": shiftID
+       return new Promise((resolve, reject) => {
+           
+            console.log(this.helperFile + ' > getJobShift - shiftID: ' + shiftID);
+    
+            // outcome is setting this value into the component attribute 'shift'
+            var shift = null;
+    
+            // Create the action
+            var doAction = true;
+            var action = component.get("c.getVolunteerJobShift"); // method on the VolunteerEventController
+            if (shiftID != '') {
+                action.setParams({
+                    "shiftID": shiftID
+                });
+            } else {
+                doAction = false;
+            }
+    
+            // Add callback behavior for when response is received
+            action.setCallback(this, function(response) {
+                console.log(this.helperFile + ' > getJobShift response: ' + response.getState())
+                var state = response.getState();
+                if (state === "SUCCESS") {
+    
+                    var shiftList = response.getReturnValue();
+                    console.log(this.helperFile + ' > getJobShift shiftList: ' + JSON.stringify(shiftList));
+                    if (shiftList.length > 0) {
+                        // shift
+                        var shift = shiftList[0];
+                        component.set("v.shift", shift);
+                        var shiftStartTime = this.formatDateString(shift.GW_Volunteers__Start_Date_Time__c);
+                        component.set("v.shiftStartTime", shiftStartTime);
+                        var shiftEndTime = this.formatDateString(shift.End_Date_Time__c);
+                        component.set("v.shiftEndTime", shiftEndTime);
+                        component.set("v.shiftDuration", shift.GW_Volunteers__Duration__c);
+    
+                        // campaign
+                        component.set("v.campaign", shift.GW_Volunteers__Volunteer_Job__r.GW_Volunteers__Campaign__r);
+    
+                        // job
+                        component.set("v.job", shift.GW_Volunteers__Volunteer_Job__r);
+                    }
+                    
+                    // promise resolved
+                    resolve();
+                 }
+                 else {
+                     var errorMsg = this.helperFile + ' > getJobShift - failed with state: ' + state;
+                     console.log(errorMsg);
+                     var error = new Error(errorMsg);
+                     reject(error);
+                 }
             });
-        } else {
-            doAction = false;
-        }
+    
+            // Send action off to be executed
+            if (doAction) {
+                $A.enqueueAction(action);
+            }
 
-        // Add callback behavior for when response is received
-        action.setCallback(this, function(response) {
-            console.log('VolunteerEvent_ShiftSignupHelper > getJobShift response: ' + response.getState())
-            var state = response.getState();
-            if (state === "SUCCESS") {
-
-                var shiftList = response.getReturnValue();
-                console.log('VolunteerEvent_ShiftSignupHelper > getJobShift shiftList: ' + JSON.stringify(shiftList));
-                if (shiftList.length > 0) {
-                    // shift
-                    var shift = shiftList[0];
-                    component.set("v.shift", shift);
-                    var shiftStartTime = this.formatDateString(shift.GW_Volunteers__Start_Date_Time__c);
-                    component.set("v.shiftStartTime", shiftStartTime);
-                    var shiftEndTime = this.formatDateString(shift.End_Date_Time__c);
-                    component.set("v.shiftEndTime", shiftEndTime);
-                    component.set("v.shiftDuration", shift.GW_Volunteers__Duration__c);
-
-                    // campaign
-                    component.set("v.campaign", shift.GW_Volunteers__Volunteer_Job__r.GW_Volunteers__Campaign__r);
-
-                    // job
-                    component.set("v.job", shift.GW_Volunteers__Volunteer_Job__r);
-                }
-             }
-             else {
-                 console.log("VolunteerEvent_ShiftSignupHelper > getJobShift - failed with state: " + state);
-             }
-        });
-
-        // Send action off to be executed
-        if (doAction) {
-            $A.enqueueAction(action);
-        }
+		}) // end promise
 
     }, // end getVolunteerJobs
 
-    getDeviceType: function(component) {
+   	getOrganizationName: function(component) {
+
+       return new Promise((resolve, reject) => {
+           
+            console.log(this.helperFile + ' > getOrganizationName');
+    
+            // outcome is setting this value into the component attribute 'shift'
+            var shift = null;
+    
+            // Create the action
+            var doAction = true;
+            var action = component.get("c.getOrganizationName"); // method on the VolunteerEventController
+    
+            // Add callback behavior for when response is received
+            action.setCallback(this, function(response) {
+                console.log(this.helperFile + ' > getOrganizationName - response: ' + response.getState())
+                var state = response.getState();
+                if (state === "SUCCESS") {
+    
+                    var organizationName = response.getReturnValue();
+                    console.log(this.helperFile + ' > getOrganizationName - organizationName: ' + organizationName);
+           			component.set("v.organizationName", organizationName);
+           
+                    // promise resolved
+                    resolve();
+                 }
+                 else {
+                     var errorMsg = this.helperFile + ' > getOrganizationName - failed with state: ' + state;
+                     console.log(errorMsg);
+                     var error = new Error(errorMsg);
+                     reject(error);
+                 }
+            });
+    
+            // Send action off to be executed
+            if (doAction) {
+                $A.enqueueAction(action);
+            }
+
+		}) // end promise
+
+    }, // end getOrganizationName
+        
+	getDeviceType: function(component) {
         return $A.get("$Browser.formFactor");
     },
 
@@ -74,21 +135,22 @@
     setPhotoPermissionText: function(component) {
 
         var signupFamily = component.get("v.signupFamily");
+        var organizationName = component.get("v.organizationName");
         var photoPermissionLabel;
         var photoPermissionOptions;
 
         if (!signupFamily) {
-            photoPermissionLabel = "Do you give WeeCycle permission to use photos taken of you during WeeCycle events?";
+            photoPermissionLabel = "Do you give " + organizationName + " permission to use photos taken of you during " + organizationName + " events?";
             photoPermissionOptions = [
-                {'label': 'Yes, I give WeeCycle permission to use photos of me.', 'value': 'Yes'},
-                {'label': 'No, I DO NOT give WeeCycle permission to use photos of me.', 'value': 'No'}
+                {'label': 'Yes, I give ' + organizationName + ' permission to use photos of me.', 'value': 'Yes'},
+                {'label': 'No, I DO NOT give ' + organizationName + ' permission to use photos of me.', 'value': 'No'}
             ]
 
         } else {
-            photoPermissionLabel = "Do you give WeeCycle permission to use photos taken of you and your family during WeeCycle events?";
+            photoPermissionLabel = "Do you give " + organizationName + " permission to use photos taken of you and your family during " + organizationName + " events?";
             photoPermissionOptions = [
-                {'label': 'Yes, I give WeeCycle permission to use photos of me and my family.', 'value': 'Yes'},
-                {'label': 'No, I DO NOT give WeeCycle permission to use photos of me and my family.', 'value': 'No'}
+                {'label': 'Yes, I give ' + organizationName + ' permission to use photos of me and my family.', 'value': 'Yes'},
+                {'label': 'No, I DO NOT give ' + organizationName + ' permission to use photos of me and my family.', 'value': 'No'}
             ]
         }
 
@@ -115,11 +177,11 @@
         var family = [];
         if (signupFamily) { family = component.get("v.family"); }
 
-        console.log('VolunteerEvent_ShiftSignupHelper > submitSignup - signupChannel: ' + signupChannel + ', jobID: ' + jobID + ', shift: ' + JSON.stringify(shift)
+        console.log(this.helperFile + ' > submitSignup - signupChannel: ' + signupChannel + ', jobID: ' + jobID + ', shift: ' + JSON.stringify(shift)
             + ', contact: ' + JSON.stringify(contact) + ', deviceType: ' + deviceType + ', signupFamily: ' + signupFamily);
 
         var allGood = (jobID != null) && (shift != null) && (contact != null) && this.validateFields(component);
-        console.log('VolunteerEvent_ShiftSignupHelper > submitSignup - allGood: ' + allGood);
+        console.log(this.helperFile + ' > submitSignup - allGood: ' + allGood);
 
         if (allGood) {
             // show loading spinner
@@ -133,7 +195,7 @@
 
     validateFields: function (component) {
 
-        console.log('VolunteerEvent_ShiftSignupHelper > validateFields');
+        console.log(this.helperFile + ' > validateFields');
 
         // checks all fields
         var allGood = component.find('field').reduce(function (validSoFar, inputCmp) {
@@ -175,7 +237,7 @@
 
     createShiftSignup: function(component, signupChannel, jobID, shift, contact, deviceType, family) {
 
-         console.log('VolunteerEvent_ShiftSignupHelper > createShiftSignup - signupChannel: ' + signupChannel + ', jobID: ' + jobID + ', shift: ' + JSON.stringify(shift)
+         console.log(this.helperFile + ' > createShiftSignup - signupChannel: ' + signupChannel + ', jobID: ' + jobID + ', shift: ' + JSON.stringify(shift)
             + ', contact: ' + JSON.stringify(contact) + ', deviceType: ' + deviceType + ', family: ' + JSON.stringify(family));
 
          // Create the action
@@ -193,12 +255,12 @@
 
              // Add callback behavior for when response is received
              action.setCallback(this, function(response) {
-                 console.log('VolunteerEvent_ShiftSignupHelper > createShiftSignup response: ' + response.getState())
+                 console.log(this.helperFile + ' > createShiftSignup response: ' + response.getState())
                  var state = response.getState();
                  if (state === "SUCCESS") {
                      // signup
                      var signup = response.getReturnValue();
-                     console.log('VolunteerEvent_ShiftSignupHelper > createShiftSignup - signup created: ' + JSON.stringify(signup));
+                     console.log(this.helperFile + ' > createShiftSignup - signup created: ' + JSON.stringify(signup));
                      component.set('v.signup', signup);
 
                      // set signupCreated - the component change handler is fired to navigate forward in the flow

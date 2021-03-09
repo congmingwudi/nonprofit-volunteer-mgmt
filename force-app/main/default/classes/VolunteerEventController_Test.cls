@@ -171,6 +171,10 @@ private class VolunteerEventController_Test {
         // getVolunteerJobShift
         List<GW_Volunteers__Volunteer_Shift__c> shifts = VolunteerEventController.getVolunteerJobShift(shift1.Id);
 
+        // getOrganization
+        String orgName = VolunteerEventController.getOrganizationName();
+        System.debug('VolunteerEventController_Test >> test_VolunteerEvent > orgName: ' + orgName);
+        
         // family
         Contact familyMember1 = new Contact();
         familyMember1.FirstName = 'Bilbo';

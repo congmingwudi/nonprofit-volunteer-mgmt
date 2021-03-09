@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>A thank you message sent to a volunteer when they signup for a shift from the website.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Nonprofit - Volunteer Job Signup Thank You</name>
+    <style>none</style>
+    <subject>Thank you for signing up to be a volunteer with {!Organization.Name}!</subject>
+    <textOnly>Hi {!Contact.FirstName},
+
+Thank you so much for signing up to volunteer!
+
+Event
+
+{!GW_Volunteers__Volunteer_Hours__c.GW_Volunteers__Volunteer_Campaign_Name__c}
+{!GW_Volunteers__Volunteer_Job__c.Event_URL__c}
+
+Job
+
+{!GW_Volunteers__Volunteer_Job__c.Name}
+{!GW_Volunteers__Volunteer_Job__c.GW_Volunteers__Description__c}
+
+Shift
+
+Start Time: {!GW_Volunteers__Volunteer_Hours__c.GW_Volunteers__Shift_Start_Date_Time__c}
+End Time:  {!GW_Volunteers__Volunteer_Hours__c.Shift_End_Date_Time__c}
+
+Location
+
+{!GW_Volunteers__Volunteer_Job__c.Location_Name__c}
+{!GW_Volunteers__Volunteer_Job__c.GW_Volunteers__Location_Street__c} {!GW_Volunteers__Volunteer_Job__c.GW_Volunteers__Location_City__c}, {!GW_Volunteers__Volunteer_Job__c.GW_Volunteers__Location__c} {!GW_Volunteers__Volunteer_Job__c.GW_Volunteers__Location_Zip_Postal_Code__c} {!GW_Volunteers__Volunteer_Job__c.GW_Volunteers__Location_Information__c}  
+
+Thanks from all of us at {!Organization.Name}!
+
+{!Organization.Street}
+{!Organization.City}, {!Organization.State} {!Organization.PostalCode}
+{!Organization.Phone}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

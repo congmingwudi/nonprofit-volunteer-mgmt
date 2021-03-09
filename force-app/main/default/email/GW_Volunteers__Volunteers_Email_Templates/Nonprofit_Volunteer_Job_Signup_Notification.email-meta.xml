@@ -3,9 +3,9 @@
     <available>true</available>
     <description>A notification message to the Volunteer Manager that a new volunteer Job/Shift signup has occured</description>
     <encodingKey>ISO-8859-1</encodingKey>
-    <name>WeeCycle - Volunteer Job Signup Notification</name>
+    <name>Nonprofit - Volunteer Job Signup Notification</name>
     <style>none</style>
-    <subject>WeeCycle Volunteer Signup Notification:  {!GW_Volunteers__Volunteer_Hours__c.GW_Volunteers__Volunteer_Job__c}</subject>
+    <subject>{!Organization.Name} Volunteer Signup Notification:  {!GW_Volunteers__Volunteer_Hours__c.GW_Volunteers__Volunteer_Job__c}</subject>
     <type>text</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

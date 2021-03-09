@@ -1,6 +1,6 @@
 <p>Hi {!Contact.FirstName}, </p>
 
-<p>We are looking forward to having you help us at our event!</p>
+<p>Thank you so much for signing up to volunteer!</p>
 
 <p><b>Event</b></p>
 
@@ -29,16 +29,8 @@ End Time: &nbsp;{!GW_Volunteers__Volunteer_Hours__c.Shift_End_Date_Time__c}<br>
 
 Thanks from all of us at {!Organization.Name}!
 
-<p><b>Morgan Seibel</b><br>
-Executive Director, WeeCycle
-</p>
-
 <p>
 {!Organization.Street}<br>
 {!Organization.City}, {!Organization.State}&nbsp;{!Organization.PostalCode}<br>
 {!Organization.Phone}<br>
-<a href="www.weecycle.org">www.weecycle.org</a>
 </p>
-
-<img src="
-https://weecycle--c.documentforce.com/servlet/servlet.ImageServer?id=0151I000000PIad&oid=00D1I000002wS4S&lastMod=1526478214000"/>

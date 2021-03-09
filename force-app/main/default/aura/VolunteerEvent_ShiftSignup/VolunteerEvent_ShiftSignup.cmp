@@ -7,6 +7,7 @@
 
     <!-- input attributes -->
     <aura:attribute name="shiftID" type="String" access="global" default=""/>
+    <aura:attribute name="organizationName" type="String" access="global" default=""/>
     <aura:attribute name="signupChannel" type="String" access="global" default=""/>
 
     <!-- output attributes -->
@@ -197,21 +198,23 @@
                 </lightning:layout>
 
             </aura:if>
-
-            <!-- PERMISSION TO USE PHOTOS -->
+               
             <lightning:layout horizontalAlign="end" multipleRows="true" >
 
-                <lightning:layoutItem alignmentBump="right" padding="around-large">
-
-                    <lightning:radioGroup aura:id="field"
-                                          label="{!v.photoPermissionLabel}"
-                                          options="{!v.photoPermissionOptions}"
-                                          value="{!v.photoPermission }"
-                                          type="radio"
-                                          required="true"/>
-
-                </lightning:layoutItem>
-
+                <!-- PERMISSION TO USE PHOTOS -->
+                <aura:if isTrue="{!v.photoPermissionLabel}">
+                                        
+                    <lightning:layoutItem alignmentBump="right" padding="around-large">
+    
+                        <lightning:radioGroup aura:id="field"
+                                              label="{!v.photoPermissionLabel}"
+                                              options="{!v.photoPermissionOptions}"
+                                              value="{!v.photoPermission }"
+                                              type="radio"
+                                              required="true"/>
+    
+                    </lightning:layoutItem>
+                </aura:if>
 
                 <!-- NAVIGATION BUTTONS -->
                 <lightning:layoutItem  flexibility="auto" padding="around-large" >

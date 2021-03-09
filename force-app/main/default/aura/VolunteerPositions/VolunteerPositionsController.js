@@ -2,7 +2,7 @@
 
     init: function(component, event, helper) {
 
-        console.log('VolunteerPositionsController > init');
+        console.log(helper.controllerFile() + ' > init');
 
         helper.getVolunteerPositions(component);
 

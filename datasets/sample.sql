@@ -12,7 +12,7 @@ CREATE TABLE "Campaign" (
 	"Type" VARCHAR(255), 
 	PRIMARY KEY (id)
 );
-INSERT INTO "Campaign" VALUES(1,'WeeCycle Warehouse Volunteer Days','Join us as a regular Tuesday volunteer to help get items ready to go our to families in need across Colorado. We need help checking gear, sorting and bagging clothing and supporting our Warehouse staff to make sure we have everything we need.','012630000021TSpAAM','True','True','2040-03-01','2021-03-01','In Progress','Event');
+INSERT INTO "Campaign" VALUES(1,'Warehouse Volunteer Days','Join us as a regular Tuesday volunteer to help get items ready to go our to families in need across Colorado. We need help checking gear, sorting and bagging clothing and supporting our Warehouse staff to make sure we have everything we need.','012630000021TSpAAM','True','True','2040-03-01','2021-03-01','In Progress','Event');
 INSERT INTO "Campaign" VALUES(2,'Volunteer Positions','','012630000021TSpAAM','False','True','','','Planned','Event');
 CREATE TABLE "Campaign_rt_mapping" (
 	record_type_id VARCHAR(18) NOT NULL, 

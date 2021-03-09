@@ -249,6 +249,11 @@ public without sharing class VolunteerEventController {
         return shiftList;
 
     } // end getVolunteerJobShift
+    
+    @AuraEnabled
+    public static String getOrganizationName() {
+		return UserInfo.getOrganizationName();
+    } 
 
     @AuraEnabled
     public static GW_Volunteers__Volunteer_Hours__c createShiftSignup(String signupChannel, String jobID, String shiftID, String startDateString,

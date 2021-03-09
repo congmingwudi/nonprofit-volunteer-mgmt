@@ -1,6 +1,7 @@
 {
   "orgName": "nonprofit-volunteer-mgmt - Feature Test Org",
   "edition": "Developer",
+  "features": ["Sites"],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
