@@ -26,3 +26,12 @@ tasks:
     run_tests:
         options:
             required_org_code_coverage_percent: 75
+    
+    add_standard_value_set_entries:
+        class_path: cumulusci.tasks.metadata_etl.AddValueSetEntries
+        options:
+            api_names: 
+                - CampaignType
+            entries:
+                - fullName: Event
+                  label: Event
