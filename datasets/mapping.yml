@@ -32,7 +32,6 @@ Insert GW_Volunteers__Volunteer_Job__c:
 Insert GW_Volunteers__Volunteer_Shift__c:
   sf_object: GW_Volunteers__Volunteer_Shift__c
   fields:
-  - Name
   - GW_Volunteers__Description__c
   - GW_Volunteers__Desired_Number_of_Volunteers__c
   - Display_on_Website__c
